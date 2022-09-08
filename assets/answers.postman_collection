@@ -1,0 +1,981 @@
+{
+	"info": {
+		"_postman_id": "a1096212-1260-46fa-9a0f-61740f3b0ac4",
+		"name": "Bequest Answers API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16910195"
+	},
+	"item": [
+		{
+			"name": "Scenarios",
+			"item": [
+				{
+					"name": "Allowed",
+					"item": [
+						{
+							"name": "scenario#1: create → delete → create → update",
+							"item": [
+								{
+									"name": "create an answer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"if (pm.response.code == 201) {\r",
+													"    pm.environment.set('scenario#1_answer_key', pm.response.json().key);\r",
+													"}\r",
+													"\r",
+													"pm.test(\"creates an answer with a HTTP CREATED\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(201)\r",
+													"    pm.expect(pm.response.json().key).to.eq(\"scenario1-key\")\r",
+													"    pm.expect(pm.response.json().value).to.eq(\"value\")\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"key\": \"scenario1-key\",\r\n    \"value\": \"value\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/answers",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete an answer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"deletes an answer with HTTP NO CONTENT\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(204)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/answers/{{scenario#1_answer_key}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers",
+												"{{scenario#1_answer_key}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create another answer with the same key but different answer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"creates an answer with a HTTP CREATED\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(201)\r",
+													"    pm.expect(pm.response.json().key).to.eq(\"scenario1-key\")\r",
+													"    pm.expect(pm.response.json().value).to.eq(\"value2\")\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"key\": \"scenario1-key\",\r\n    \"value\": \"value2\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/answers",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update new answer with the same key",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"creates an answer with a HTTP OK\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"    pm.expect(pm.response.json().key).to.eq(\"scenario1-key\")\r",
+													"    pm.expect(pm.response.json().value).to.eq(\"value2\")\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"value\": \"value2\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/answers/{{scenario#1_answer_key}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers",
+												"{{scenario#1_answer_key}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete an answer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"deletes an answer with HTTP NO CONTENT\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(204)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/answers/{{scenario#1_answer_key}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers",
+												"{{scenario#1_answer_key}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "scenario#2: create → update → delete → create → update",
+							"item": [
+								{
+									"name": "create an answer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"if (pm.response.code == 201) {\r",
+													"    pm.environment.set('scenario#2_answer_key', pm.response.json().key);\r",
+													"}\r",
+													"\r",
+													"pm.test(\"creates an answer with a HTTP CREATED\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(201)\r",
+													"    pm.expect(pm.response.json().key).to.eq(\"scenario2-key\")\r",
+													"    pm.expect(pm.response.json().value).to.eq(\"value\")\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"key\": \"scenario2-key\",\r\n    \"value\": \"value\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/answers",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update new answer with the same key",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"creates an answer with a HTTP OK\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"    pm.expect(pm.response.json().key).to.eq(\"scenario2-key\")\r",
+													"    pm.expect(pm.response.json().value).to.eq(\"value2\")\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"value\": \"value2\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/answers/{{scenario#2_answer_key}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers",
+												"{{scenario#2_answer_key}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete an answer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"deletes an answer with HTTP NO CONTENT\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(204)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/answers/{{scenario#2_answer_key}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers",
+												"{{scenario#2_answer_key}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create another answer with the same key but different answer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"creates an answer with a HTTP CREATED\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(201)\r",
+													"    pm.expect(pm.response.json().key).to.eq(\"scenario2-key\")\r",
+													"    pm.expect(pm.response.json().value).to.eq(\"value3\")\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"key\": \"scenario2-key\",\r\n    \"value\": \"value3\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/answers",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update new answer with the same key",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"creates an answer with a HTTP OK\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"    pm.expect(pm.response.json().key).to.eq(\"scenario2-key\")\r",
+													"    pm.expect(pm.response.json().value).to.eq(\"value4\")\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"value\": \"value4\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/answers/{{scenario#2_answer_key}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers",
+												"{{scenario#2_answer_key}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete an answer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"deletes an answer with HTTP NO CONTENT\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(204)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/answers/{{scenario#2_answer_key}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers",
+												"{{scenario#2_answer_key}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Not Allowed",
+					"item": [
+						{
+							"name": "scenario#3: create → delete → update",
+							"item": [
+								{
+									"name": "create an answer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"if (pm.response.code == 201) {\r",
+													"    pm.environment.set('scenario#3_answer_key', pm.response.json().key);\r",
+													"}\r",
+													"\r",
+													"pm.test(\"creates an answer with a HTTP CREATED\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(201)\r",
+													"    pm.expect(pm.response.json().key).to.eq(\"scenario3-key\")\r",
+													"    pm.expect(pm.response.json().value).to.eq(\"value\")\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"key\": \"scenario3-key\",\r\n    \"value\": \"value\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/answers",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete an answer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"deletes an answer with HTTP NO CONTENT\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(204)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/answers/{{scenario#3_answer_key}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers",
+												"{{scenario#3_answer_key}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update new answer with the same key",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"returns a HTTP Conflict\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(404)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"value\": \"value2\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/answers/{{scenario#3_answer_key}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers",
+												"{{scenario#3_answer_key}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "scenario#4: create → create",
+							"item": [
+								{
+									"name": "create an answer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"if (pm.response.code == 201) {\r",
+													"    pm.environment.set('scenario#4_answer_key', pm.response.json().key);\r",
+													"}\r",
+													"\r",
+													"pm.test(\"creates an answer with a HTTP CREATED\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(201)\r",
+													"    pm.expect(pm.response.json().key).to.eq(\"scenario4-key\")\r",
+													"    pm.expect(pm.response.json().value).to.eq(\"value\")\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"key\": \"scenario4-key\",\r\n    \"value\": \"value\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/answers",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create the same answer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"creates an answer with a HTTP CONFLICT\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(409)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"key\": \"scenario4-key\",\r\n    \"value\": \"value\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/answers",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete an answer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"deletes an answer with HTTP NO CONTENT\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(204)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/answers/{{scenario#4_answer_key}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers",
+												"{{scenario#4_answer_key}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Events",
+					"item": [
+						{
+							"name": "scenario#5: events created for POST/PATCH/DELETE requests",
+							"item": [
+								{
+									"name": "creates an answer",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"if (pm.response.code == 201) {\r",
+													"    pm.environment.set('scenario#5_answer_key', pm.response.json().key);\r",
+													"}\r",
+													"\r",
+													"pm.test(\"creates an answer with a HTTP CREATED\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(201)\r",
+													"    pm.expect(pm.response.json().key).to.eq(\"scenario5-key\")\r",
+													"    pm.expect(pm.response.json().value).to.eq(\"value\")\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"key\": \"scenario5-key\",\r\n    \"value\": \"value\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/answers",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "creates a different answer with the same key",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"creates an answer with a HTTP OK\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"    pm.expect(pm.response.json().key).to.eq(\"scenario5-key\")\r",
+													"    pm.expect(pm.response.json().value).to.eq(\"value2\")\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"value\": \"value2\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/answers/{{scenario#5_answer_key}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers",
+												"{{scenario#5_answer_key}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deletes answer",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/answers/{{scenario#5_answer_key}}",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers",
+												"{{scenario#5_answer_key}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "checks answer event history",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"gets events with a HTTP OK\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"\r",
+													"    const events = pm.response.json()\r",
+													"    \r",
+													"    pm.expect(events[0].event).to.eq(\"create\")\r",
+													"    pm.expect(events[1].event).to.eq(\"update\")\r",
+													"    pm.expect(events[2].event).to.eq(\"delete\")\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/answers/{{scenario#5_answer_key}}/history",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"answers",
+												"{{scenario#5_answer_key}}",
+												"history"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "REST",
+			"item": [
+				{
+					"name": "Answer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/answers/{{answer_key}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"answers",
+								"{{answer_key}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Answer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"const response = pm.response;\r",
+									"\r",
+									"if (response.code == 201) {\r",
+									"    pm.environment.set('answer_key', response.json().key);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"key\": \"else\",\r\n    \"value\": \"value\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/answers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"answers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Answer",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"value\": \"value2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/answers/{{answer_key}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"answers",
+								"{{answer_key}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Answer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/answers/{{answer_key}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"answers",
+								"{{answer_key}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Answer History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/answers/{{answer_key}}/history",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"answers",
+								"{{answer_key}}",
+								"history"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,12 @@
+# Typically this file wouldn't be commited but leaving it here for showcasing purposes
+
+MONGODB_ROOT_USERNAME=admin
+MONGODB_ROOT_PASSWORD=supersecretpassword
+
+MONGODB_UI_BASICAUTH_USERNAME=me
+MONGODB_UI_BASICAUTH_PASSWORD=ok
+
+DB_NAME="bequest"
+
+# use in memory "db", simpler to set up and allows to check api behaviour
+USE_IN_MEMORY=false
